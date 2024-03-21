@@ -1,0 +1,75 @@
+version: 2
+
+models:
+    
+  - name: facts_claims
+    description: fact table from the source datasets. 
+    columns:
+      - name: claim_id
+        description: unique identifier for claims of the insurer
+        tests:
+          - unique
+          - not_null  
+      - name: member_key
+        description: claim id of the insurer
+        tests:
+          - unique
+          - not_null        
+      - name: diagnosis_1_key
+        description: first diagnosis key for patient
+      - name: diagnosis_2_key
+        description: second diagnosis key for patient
+      - name: diagnosis_3_key
+        description: third diagnosis key for patient
+      - name: allowed_amount
+        description: allowed payment for the insurance
+      - name: paid_amount
+        description: paid payment for the insurance  
+      - name: enrolled_date_key
+        description: enrollment date of the insurance
+      - name: claimed_date_key
+        description: claimed date of the insurance by the insurer
+      - name: paid_date_key
+        description: payment date of the insurance 
+      - name: created_date_key
+        description: creation date of claim
+
+  - name: dim_date
+    description: dimension table of the date from datasets. 
+    columns:
+      - name: date_key
+        description: gives date in the yyyy-mm-dd format 
+        test:
+          - date 
+      - name: day
+        description: date in 'dd' format 
+      - name: is_weekend
+        description: specifies if the day is week end
+  - name: dim_diagnosis
+    description: dimension table of the diagnosis  
+    columns:
+      - name: diagnosis_key
+        description: unique identification of diagnosis
+        tests:
+          - unique
+          - not_null    
+      - name: diagnosis_code
+        description:  code of the category title
+      - name: category_code
+        description: specifies the subtype of category
+      - name: full_description
+        description: full description of the diagnosis key
+      - name: category_title
+        description: short description of the diagnosis code
+  - name: dim_member
+    description: dimension table of the members. 
+    columns:
+      - name: member_key
+        description: unique identification of member 
+      - name: address
+        description: detailed address of member
+      - name: gender
+        description: specifies gender of member in ('male','female','others')                  
+        tests:
+          - accepted_values:
+              values: ['Male','Female','Others']        

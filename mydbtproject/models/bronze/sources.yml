@@ -1,0 +1,21 @@
+version: 2
+
+sources:
+  - name: bootcamp
+    description: healthcare datasets
+    database: bootcamp
+    schema: public
+    tables:
+      - name: ICD_Codes
+        description: ICD codes for each disease 
+        columns:
+          - name: Full_Code
+            
+      - name: US_Healthcare_Claims 
+        description: Claims data for each member. 
+        columns:
+          - name: claim_id
+            tests:
+            - unique
+            - not_null
+      
