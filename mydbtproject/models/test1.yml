@@ -54,9 +54,17 @@ models:
           - unique
           - not_null    
       - name: diagnosis_code
-        description:  code of the category title
+        description: code of the category title
+        tests:        
+         - relationships:
+            to: ref('ICD_Codes')
+            field: Diagnosis_Code  
       - name: category_code
         description: specifies the subtype of category
+        tests:        
+         - relationships:
+            to: ref('ICD_Codes')
+            field: Category_Code  
       - name: full_description
         description: full description of the diagnosis key
       - name: category_title
@@ -68,8 +76,74 @@ models:
         description: unique identification of member 
       - name: address
         description: detailed address of member
+        tests:
+          - relationships:
+              to: ref('us_health_table')
+              field: address
       - name: gender
         description: specifies gender of member in ('male','female','others')                  
         tests:
           - accepted_values:
-              values: ['Male','Female','Others']        
+              values: ['Male','Female','Others']    
+
+  - name: diagnosis_frequency_by_gender
+    description: count of diagnosis by gender 
+    columns:
+      - name: gender
+        description: specifies gender of member in ('male','female','others')
+        tests:
+          - accepted_values:
+              values: ['Male','Female','Others'] 
+      - name: diagnosis_frequency
+        description: count of diagnosis group by gender
+
+
+  - name: diagnosis_frequency_by_key
+    description: Unique diagnosis keys with category titles and their counts for defined groups of claims 
+    columns:
+      - name: diagnosis_key
+        description: unique identification of diagnosis 
+      - name: category_title
+        description: short description of the diagnosis code
+
+
+  - name: total_paid_amount_by_day
+    description: paid amount of the insurance per day
+    columns:
+      - name: paid_by_day
+        description: day in ascending format of month 
+      - name: total_paid_amount
+        description: paid amount per day of the month        
+
+
+  - name: total_allowed_amount
+    description: Total allowed amount by the insurance claim
+    columns:    
+      - name: total_allowed_amount
+        description: Total allowed amount by the insurance claim     
+
+  - name: total_paid_amount
+    description: Total amount paid of the insurance claim
+    columns:    
+      - name: total_paid_amount
+        description: Total amount paid of the insurance claim 
+
+  - name: icd_clean_data
+    description: ICD codes for each disease 
+
+  - name: us_health_clean_data
+    description: Table containing records of healthcare claims processed within the United States
+    columns:
+      - name: claim_id
+        description: Unique identifier representing individual claims
+        tests:
+          - relationships:
+              to: ref('us_health_table')
+              field: claim_id      
+
+  - name: icd_clean_data
+    description: Data of icd_codes after Transformation
+
+  - name: us_health_clean_data
+    description: Data of us_health_table after Transformation
+       
